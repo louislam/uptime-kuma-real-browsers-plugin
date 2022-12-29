@@ -1,0 +1,10 @@
+{
+    "fullName": "Real Browser Monitor",
+    "name": "real-browser-monitor",
+    "pluginType": 1,
+    "version": "0.0.1",
+    "description": "",
+    "devDependencies": {
+        "playwright": "~1.29.1"
+    }
+}
