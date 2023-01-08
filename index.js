@@ -3,18 +3,41 @@ process.env.PLAYWRIGHT_BROWSERS_PATH = path.join(__dirname, "browsers");
 const { chromium, firefox } = require("playwright");
 const { log } = require("../../../src/util");
 const childProcess = require("child_process");
-const MonitorType = require("../../../server/monitor-types/monitor-type");
+const { Plugin } = require("../../../server/plugin");
+const { BrowserMonitorType } = require("./browser-monitor-type");
 
-class RealBrowserPlugin {
+class RealBrowserPlugin extends Plugin {
+
+    /**
+     *
+     * @type {BrowserMonitorType}
+     */
+    browserMonitorType = null;
+
+    /**
+     *
+     * @type {UptimeKumaServer}
+     */
+    server = null;
+
     /**
      *
      * @param {UptimeKumaServer} server
      */
     constructor(server) {
+        super();
+        this.server = server;
+
         log.debug("RBM", "Current plugin folder: " + __dirname);
         this.downloadBrowsers();
-        server.addMonitorType(new RealBrowserMonitorType());
-        this.test();
+
+        this.browserMonitorType = new BrowserMonitorType();
+        server.addMonitorType(this.browserMonitorType);
+    }
+
+    async uninstall() {
+        this.browserMonitorType.close();
+        this.server.removeMonitorType(this.browserMonitorType);
     }
 
     async test() {
@@ -23,7 +46,8 @@ class RealBrowserPlugin {
             //channel: "chrome",
         });
         let page = await browser.newPage();
-        await page.goto("https://google.com");
+        let response = await page.goto("https://google.com");
+        log.debug("RBM", response.statusCode + " " + response.statusMessage);
     }
 
     downloadBrowsers() {
@@ -33,9 +57,6 @@ class RealBrowserPlugin {
         });
         log.info("RBM", "Browsers ready");
     }
-}
-
-class RealBrowserMonitorType extends MonitorType {
 }
 
 module.exports = RealBrowserPlugin;
