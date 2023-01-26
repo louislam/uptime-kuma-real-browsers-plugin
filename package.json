@@ -3,7 +3,7 @@
     "name": "real-browser-monitor",
     "pluginType": 1,
     "version": "0.0.1",
-    "description": "",
+    "description": "(Beta) Monitoring your website using Chromium or Firefox. ⚠️ CPU usage and memory usage will be higher.",
     "devDependencies": {
         "playwright": "~1.29.1"
     }
