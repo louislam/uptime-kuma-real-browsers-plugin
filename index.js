@@ -1,5 +1,5 @@
 const path = require("path");
-process.env.PLAYWRIGHT_BROWSERS_PATH = "../../browsers";
+process.env.PLAYWRIGHT_BROWSERS_PATH = "./data/browsers";
 const { chromium, firefox } = require("playwright");
 const { log } = require("../../../src/util");
 const childProcess = require("child_process");
