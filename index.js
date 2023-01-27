@@ -33,8 +33,10 @@ class RealBrowserPlugin extends Plugin {
     }
 
     async unload() {
-        await this.browserMonitorType.close();
-        this.server.removeMonitorType(this.browserMonitorType);
+        if (this.browserMonitorType) {
+            await this.browserMonitorType.close();
+            this.server.removeMonitorType(this.browserMonitorType);
+        }
     }
 
     async test() {
