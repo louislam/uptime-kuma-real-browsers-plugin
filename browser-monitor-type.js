@@ -43,14 +43,16 @@ class BrowserMonitorType extends MonitorType {
         if (!this.firefoxBrowser) {
             this.firefoxBrowser = await firefox.launch({
                 //headless: false,
-            //channel: "chrome",
+                //channel: "chrome",
             });
         }
         return this.firefoxBrowser;
     }
 
     async close() {
-        await this.firefoxBrowser.close();
+        if (this.firefoxBrowser) {
+            await this.firefoxBrowser.close();
+        }
     }
 }
 
