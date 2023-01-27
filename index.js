@@ -27,10 +27,7 @@ class RealBrowserPlugin extends Plugin {
     constructor(server) {
         super();
         this.server = server;
-
         log.debug("RBM", "Current plugin folder: " + __dirname);
-        this.downloadBrowsers();
-
         this.browserMonitorType = new BrowserMonitorType();
         server.addMonitorType(this.browserMonitorType);
     }
@@ -48,14 +45,6 @@ class RealBrowserPlugin extends Plugin {
         let page = await browser.newPage();
         let response = await page.goto("https://google.com");
         log.debug("RBM", response.statusCode + " " + response.statusMessage);
-    }
-
-    downloadBrowsers() {
-        log.info("RBM", "Check and download browsers if not exist");
-        childProcess.execSync("npm install", {
-            cwd: __dirname,
-        });
-        log.info("RBM", "Browsers ready");
     }
 }
 
