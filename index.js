@@ -32,8 +32,8 @@ class RealBrowserPlugin extends Plugin {
         server.addMonitorType(this.browserMonitorType);
     }
 
-    async uninstall() {
-        this.browserMonitorType.close();
+    async unload() {
+        await this.browserMonitorType.close();
         this.server.removeMonitorType(this.browserMonitorType);
     }
 
